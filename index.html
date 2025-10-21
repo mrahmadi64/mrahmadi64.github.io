@@ -1,250 +1,200 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="محمدرضا خواجونداحمدی - تحلیلگر داده با تمرکز بر شناسایی نیازهای داده‌ای سازمان و فراهم آوردن راه‌حل‌های تحلیلی" />
-  <title>محمدرضا خواجونداحمدی | تحلیلگر داده</title>
-  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    :root {
-      --primary-color: #3a86ff;
-      --secondary-color: #8338ec;
-      --bg-color: #121212;
-      --text-color: #f0f0f0;
-      --card-bg: #1e1e1e;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محمدرضا خواجونداحمدی - تحلیلگر داده و متخصص هوش تجاری</title>
+    <!-- فونت Vazirmatn -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --text-color: #1f2937;
+            --background-color: #ffffff;
+            --hover-color: #1d4ed8;
+        }
 
-    body {
-      margin: 0;
-      font-family: Vazir, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-      text-align: center;
-      line-height: 1.6;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+        body {
+            font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-    header {
-      margin-bottom: 2rem;
-    }
+        .container {
+            margin-top: 2rem;
+        }
 
-    img.avatar {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 0 20px rgba(58, 134, 255, 0.3);
-      border: 3px solid var(--primary-color);
-      transition: transform 0.3s;
-    }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
 
-    img.avatar:hover {
-      transform: scale(1.05);
-    }
+        h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin: 2rem 0 1rem 0;
+        }
 
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
 
-    .subtitle {
-      font-size: 1.2rem;
-      color: #aaa;
-      margin-bottom: 1rem;
-    }
+        .avatar-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
 
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      line-height: 1.8;
-      margin-left: auto;
-      margin-right: auto;
-    }
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    section {
-      margin-bottom: 3rem;
-      width: 100%;
-    }
+        .avatar:hover {
+            transform: scale(1.05);
+        }
 
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+        .intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
 
-    .skill-tag {
-      background-color: var(--card-bg);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      border: 1px solid var(--primary-color);
-      transition: all 0.3s;
-    }
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
 
-    .skill-tag:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(58, 134, 255, 0.2);
-    }
+        .skill-item {
+            background: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
 
-    .links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
+        .skill-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #e5e7eb;
+        }
 
-    .links a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s;
-      padding: 0.8rem 1.5rem;
-      border-radius: 30px;
-      background-color: var(--card-bg);
-    }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
 
-    .links a:hover {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
-    }
+        .social-links a {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
 
-    .links a i {
-      font-size: 1.2rem;
-    }
+        .social-links a:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    footer {
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
 
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-      
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      .links {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .links a {
-        width: 80%;
-      }
-    }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
 
-    /* اضافه کردن انیمیشن ساده */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+            h1 {
+                font-size: 2rem;
+            }
 
-    header, section {
-      animation: fadeIn 0.8s ease forwards;
-    }
+            h2 {
+                font-size: 1.5rem;
+            }
 
-    section:nth-child(2) {
-      animation-delay: 0.2s;
-    }
+            .skills {
+                grid-template-columns: 1fr;
+            }
 
-    section:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-  </style>
+            .social-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .social-links a {
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="avatar.png" alt="محمدرضا خواجونداحمدی" class="avatar" />
-      <h1>محمدرضا خواجونداحمدی</h1>
-      <div class="subtitle">تحلیلگر داده و متخصص هوش تجاری</div>
-    </header>
+    <div class="container">
+        <div class="avatar-container">
+            <img src="avatar.png" alt="محمدرضا خواجونداحمدی" class="avatar">
+        </div>
 
-    <section>
-      <p>
-        تحلیلگر داده هستم با تمرکز بر شناسایی نیازهای داده‌ای سازمان و فراهم آوردن راه‌حل‌های تحلیلی برای پشتیبانی از اهداف کسب و کار. به دنبال ساختن راه‌حل‌هایی ساده برای مسائل پیچیده هستم.
-      </p>
-    </section>
+        <h1>محمدرضا خواجونداحمدی</h1>
+        
+        <div class="intro">
+            <p>تحلیلگر داده و متخصص هوش تجاری</p>
+            <p>تحلیلگر داده هستم با تمرکز بر شناسایی نیازهای داده‌ای سازمان و فراهم آوردن
+                راه‌حل‌های تحلیلی برای پشتیبانی از اهداف کسب و کار. به دنبال ساختن راه‌حل‌هایی ساده
+                برای مسائل پیچیده هستم.</p>
+        </div>
 
-    <section>
-      <h2>مهارت‌ها</h2>
-      <div class="skills">
-        <div class="skill-tag">تحلیل داده</div>
-        <div class="skill-tag">Python</div>
-        <div class="skill-tag">SQL</div>
-        <div class="skill-tag">Power BI</div>
-        <div class="skill-tag">داشبوردهای تحلیلی</div>
-        <div class="skill-tag">تصمیم‌گیری داده-محور</div>
-        <div class="skill-tag">هوش تجاری</div>
-      </div>
-    </section>
+        <h2>مهارت‌ها</h2>
+        <div class="skills">
+            <div class="skill-item">Python</div>
+            <div class="skill-item">SQL</div>
+            <div class="skill-item">Power BI</div>
+            <div class="skill-item">داشبوردهای تحلیلی</div>
+            <div class="skill-item">تصمیم‌گیری داده-محور</div>
+            <div class="skill-item">هوش تجاری</div>
+        </div>
 
-    <section>
-      <div class="links">
-        <a href="https://github.com/mrahmadi64" target="_blank">
-          <i class="fab fa-github"></i>
-          GitHub
-        </a>
-        <a href="https://jobvision.ir/cv/16994999-211436" target="_blank">
-          <i class="fas fa-file-alt"></i>
-          Jobvision
-        </a>
-        <a href="https://www.linkedin.com/in/ahmadii" target="_blank">
-          <i class="fab fa-linkedin"></i>
-          LinkedIn
-        </a>
-        <a href="mailto:mr_ahmadi@outlook.com" target="_blank">
-          <i class="fas fa-envelope"></i>
-          تماس با من
-        </a>
-      </div>
-    </section>
+        <div class="social-links">
+            <a href="https://github.com/mrahmadi64" target="_blank">GitHub</a>
+            <a href="https://jobvision.ir/cv/16994999-211436" target="_blank">Jobvision</a>
+            <a href="https://www.linkedin.com/in/ahmadii" target="_blank">LinkedIn</a>
+            <a href="mailto:mr_ahmadi@outlook.com">تماس با من</a>
+        </div>
 
-    <footer>
-      <p>© ۱۴۰۴ محمدرضا خواجونداحمدی. تمامی حقوق محفوظ است.</p>
-    </footer>
-  </div>
-
-  <script>
-    // اضافه کردن اسکریپت ساده برای تعامل بیشتر
-    document.addEventListener('DOMContentLoaded', function() {
-      // اضافه کردن افکت hover روی مهارت‌ها
-      const skillTags = document.querySelectorAll('.skill-tag');
-      skillTags.forEach(tag => {
-        tag.addEventListener('mouseover', function() {
-          this.style.backgroundColor = 'rgba(58, 134, 255, 0.2)';
-        });
-        tag.addEventListener('mouseout', function() {
-          this.style.backgroundColor = 'var(--card-bg)';
-        });
-      });
-    });
-  </script>
+        <footer>
+            <p>© ۱۴۰۴ محمدرضا خواجونداحمدی. تمامی حقوق محفوظ است.</p>
+        </footer>
+    </div>
 </body>
 </html>
