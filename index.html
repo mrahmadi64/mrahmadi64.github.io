@@ -196,5 +196,159 @@
             <p>© ۱۴۰۵ محمدرضا خواجونداحمدی. تمامی حقوق محفوظ است.</p>
         </footer>
     </div>
+
+
+<!-- شروع کد چت‌بات ساده -->
+<style>
+  /* استایل دکمه چت */
+  #chat-bubble {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    background-color: #6c5ce7; /* رنگ بنفش، می‌توانید تغییر دهید */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: transform 0.3s;
+  }
+  #chat-bubble:hover { transform: scale(1.1); }
+  #chat-bubble svg { width: 30px; height: 30px; fill: white; }
+
+  /* استایل پنجره چت */
+  #chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    display: none; /* در حالت عادی مخفی است */
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    font-family: Tahoma, Arial, sans-serif;
+    direction: rtl;
+  }
+
+  /* هدر پنجره چت */
+  #chat-header {
+    background-color: #6c5ce7;
+    color: white;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  /* بخش پیام‌ها */
+  #chat-body {
+    padding: 15px;
+    background: #f9f9f9;
+    min-height: 150px;
+  }
+  .bot-message {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    line-height: 1.6;
+  }
+
+  /* دکمه‌های انتخاب */
+  .chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .chat-btn {
+    background: white;
+    border: 1px solid #6c5ce7;
+    color: #6c5ce7;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: 0.2s;
+  }
+  .chat-btn:hover {
+    background: #6c5ce7;
+    color: white;
+  }
+</style>
+
+<!-- دکمه آیکون چت -->
+<div id="chat-bubble" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</div>
+
+<!-- پنجره چت -->
+<div id="chat-window">
+  <div id="chat-header">پشتیبانی سایت</div>
+  <div id="chat-body">
+    <div class="bot-message">سلام! 👋 چطور می‌تونم کمکتون کنم؟</div>
+    <div class="chat-options" id="options-list">
+      <button class="chat-btn" onclick="showContact('phone')">📞 دریافت شماره تماس</button>
+      <button class="chat-btn" onclick="showContact('email')">✉️ دریافت آدرس ایمیل</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // باز و بسته کردن پنجره چت
+  function toggleChat() {
+    var chatWindow = document.getElementById('chat-window');
+    if (chatWindow.style.display === 'flex') {
+      chatWindow.style.display = 'none';
+    } else {
+      chatWindow.style.display = 'flex';
+    }
+  }
+
+  // نمایش شماره و ایمیل با کلیک روی دکمه‌ها
+  function showContact(type) {
+    var optionsList = document.getElementById('options-list');
+    var chatBody = document.getElementById('chat-body');
+    
+    // مخفی کردن دکمه‌ها بعد از کلیک
+    optionsList.style.display = 'none';
+
+    // ساخت پیام جدید برای نمایش اطلاعات
+    var newMessage = document.createElement('div');
+    newMessage.className = 'bot-message';
+
+    if (type === 'phone') {
+      newMessage.innerHTML = '📞 شماره تماس ما: <br><strong>۰۹۱۲۳۴۵۶۷۸۹</strong>'; // شماره خود را اینجا بگذارید
+    } else if (type === 'email') {
+      newMessage.innerHTML = '✉️ آدرس ایمیل ما: <br><strong>info@example.com</strong>'; // ایمیل خود را اینجا بگذارید
+    }
+
+    // اضافه کردن دکمه شروع مجدد
+    var restartBtn = document.createElement('button');
+    restartBtn.className = 'chat-btn';
+    restartBtn.innerText = '↩️ بازگشت به منو';
+    restartBtn.style.marginTop = '10px';
+    restartBtn.onclick = function() {
+      // ریست کردن چت به حالت اولیه
+      newMessage.remove();
+      restartBtn.remove();
+      optionsList.style.display = 'flex';
+    };
+
+    chatBody.appendChild(newMessage);
+    chatBody.appendChild(restartBtn);
+  }
+</script>
+<!-- پایان کد چت‌بات -->
+    
 </body>
 </html>
