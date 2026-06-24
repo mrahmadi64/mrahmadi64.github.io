@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ماشین حساب پروموشن حمل رایگان مسیرمحور</title>
+
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --border: #e5e7eb;
+      --green: #16a34a;
+      --yellow: #ca8a04;
+      --red: #dc2626;
+      --blue: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      height: 42px;
+      padding: 0 14px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--primary);
+      color: white;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #030712;
+    }
+
+    .btn-danger {
+      background: var(--red);
+      height: 34px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f9fafb;
+      color: #374151;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    td input {
+      height: 36px;
+      border-radius: 8px;
+    }
+
+    .result-card {
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .result-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .result-value {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .status {
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+
+    .status.green {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .status.yellow {
+      background: #fef9c3;
+      color: #854d0e;
+      border: 1px solid #fde68a;
+    }
+
+    .status.red {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .status.blue {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .ltr {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 1000px) {
+      .grid,
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .grid,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 14px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>ماشین حساب پروموشن حمل رایگان مسیرمحور</h1>
+    <div class="subtitle">
+      کنترل حمل رایگان برای مشتریان خرده با شرط سقف تعهد شرکت، مثلاً حداکثر ۲٪ مجموع خرید مسیر.
+    </div>
+
+    <div class="card">
+      <h3>۱. اطلاعات مسیر، ماشین و سیاست پروموشن</h3>
+
+      <div class="grid">
+        <div>
+          <label for="destinationSelect">مقصد / مسیر</label>
+          <select id="destinationSelect"></select>
+        </div>
+
+        <div>
+          <label for="vehicleSelect">نوع ماشین</label>
+          <select id="vehicleSelect"></select>
+        </div>
+
+        <div>
+          <label for="baseRate">نرخ حمل پایه، تومان</label>
+          <input id="baseRate" type="number" min="0" step="10000" />
+        </div>
+
+        <div>
+          <label for="extraStopRate">هزینه هر توقف اضافه، تومان</label>
+          <input id="extraStopRate" type="number" min="0" step="10000" />
+        </div>
+
+        <div>
+          <label for="capacitySqm">ظرفیت ماشین، مترمربع</label>
+          <input id="capacitySqm" type="number" min="0" step="1" />
+        </div>
+
+        <div>
+          <label for="commitmentRate">درصد تعهد شرکت از خرید</label>
+          <input id="commitmentRate" type="number" min="0" step="0.1" value="2" />
+        </div>
+
+        <div>
+          <label for="minFillRate">حداقل درصد پرشدگی خودرو</label>
+          <input id="minFillRate" type="number" min="0" max="100" step="1" value="85" />
+        </div>
+
+        <div>
+          <label for="batchCode">کد بچ ارسال</label>
+          <input id="batchCode" type="text" value="BATCH-001" />
+        </div>
+      </div>
+
+      <div class="hint">
+        اگر می‌خواهید شرط پرشدگی خودرو حذف شود، مقدار «حداقل درصد پرشدگی خودرو» را صفر قرار دهید.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>۲. سفارش‌های مشتریان داخل همین مسیر</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>نام مشتری</th>
+            <th>مبلغ خرید، تومان</th>
+            <th>متراژ بار</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+
+      <div class="actions">
+        <button class="btn" id="addOrderBtn" type="button">افزودن مشتری</button>
+        <button class="btn btn-secondary" id="resetBtn" type="button">بازنشانی نمونه</button>
+        <button class="btn btn-secondary" id="csvBtn" type="button">خروجی CSV</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>۳. خروجی محاسبات مسیر</h3>
+
+      <div class="grid">
+        <div class="result-card">
+          <div class="result-title">تعداد مشتریان مسیر</div>
+          <div class="result-value" id="outOrderCount">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">مجموع خرید مسیر</div>
+          <div class="result-value" id="outTotalPurchase">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">مجموع متراژ بار</div>
+          <div class="result-value" id="outTotalSqm">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">درصد پرشدگی خودرو</div>
+          <div class="result-value" id="outFillRate">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">کرایه پایه مسیر</div>
+          <div class="result-value" id="outBaseRate">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">هزینه توقف‌های اضافه</div>
+          <div class="result-value" id="outExtraStopCost">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">کرایه کل مسیر</div>
+          <div class="result-value" id="outTotalFreight">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">سقف تعهد شرکت</div>
+          <div class="result-value" id="outCompanyCap">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">حداقل خرید لازم برای حمل رایگان</div>
+          <div class="result-value" id="outMinPurchase">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">کسری خرید تا حمل رایگان</div>
+          <div class="result-value" id="outShortfall">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">هزینه حمل به درصد خرید</div>
+          <div class="result-value" id="outFreightPercent">-</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-title">ارزش تخمینی ظرفیت کامل ماشین</div>
+          <div class="result-value" id="outFullCapacityValue">-</div>
+        </div>
+      </div>
+
+      <div id="statusBox" class="status blue">در انتظار ورود اطلاعات...</div>
+    </div>
+
+    <div class="card">
+      <h3>۴. تخصیص کرایه بین مشتریان</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>مشتری</th>
+            <th>مبلغ خرید</th>
+            <th>متراژ</th>
+            <th>سهم از کرایه کل</th>
+            <th>سقف ۲٪ همان مشتری</th>
+            <th>سهم شرکت</th>
+            <th>سهم مشتری</th>
+            <th>وضعیت</th>
+          </tr>
+        </thead>
+        <tbody id="allocationBody"></tbody>
+      </table>
+
+      <div class="hint">
+        اگر بچ ارسال به وضعیت «حمل رایگان مجاز» برسد، سهم شرکت برابر کل کرایه تخصیصی هر مشتری می‌شود.
+        در غیر این حالت، سهم شرکت حداکثر تا سقف درصد تعهد از مبلغ خرید همان مشتری محاسبه می‌شود.
+      </div>
+    </div>
+
+    <div class="footer-note">
+      نکته: نرخ‌ها و ظرفیت‌های پیش‌فرض داخل اسکریپت نمونه هستند. باید آن‌ها را با نرخ‌نامه واقعی حمل مجموعه خودتان جایگزین کنید.
+    </div>
+  </div>
+
+  <script>
+    /*
+      ==========================================================
+      بخش قابل ویرایش توسط شما
+      اینجا نرخ‌نامه مسیرها و ظرفیت ماشین‌ها را مطابق فایل اکسل خودتان تنظیم کنید.
+      واحد پول: تومان
+      واحد ظرفیت: مترمربع
+      ==========================================================
+    */
+
+    const VEHICLES = {
+      "وانت": {
+        capacitySqm: 35
+      },
+      "نیسان": {
+        capacitySqm: 100
+      },
+      "خاور": {
+        capacitySqm: 300
+      },
+      "کامیون تک": {
+        capacitySqm: 650
+      },
+      "کامیون جفت": {
+        capacitySqm: 1000
+      }
+    };
+
+    const TARIFFS = {
+      "تهران شمال / تجریش": {
+        routeCode: "TEH-NORTH",
+        extraStopRate: 150000,
+        rates: {
+          "وانت": 1300000,
+          "نیسان": 1900000,
+          "خاور": 3800000,
+          "کامیون تک": 6500000,
+          "کامیون جفت": 9000000
+        }
+      },
+
+      "تهران غرب / چیتگر": {
+        routeCode: "TEH-WEST",
+        extraStopRate: 150000,
+        rates: {
+          "وانت": 1100000,
+          "نیسان": 1700000,
+          "خاور": 3400000,
+          "کامیون تک": 6000000,
+          "کامیون جفت": 8500000
+        }
+      },
+
+      "تهران جنوب / یافت‌آباد": {
+        routeCode: "TEH-SOUTH",
+        extraStopRate: 150000,
+        rates: {
+          "وانت": 1000000,
+          "نیسان": 1600000,
+          "خاور": 3200000,
+          "کامیون تک": 5800000,
+          "کامیون جفت": 8200000
+        }
+      },
+
+      "البرز / کرج مرکزی": {
+        routeCode: "ALB-CENTER",
+        extraStopRate: 180000,
+        rates: {
+          "وانت": 1400000,
+          "نیسان": 2100000,
+          "خاور": 4200000,
+          "کامیون تک": 7200000,
+          "کامیون جفت": 9800000
+        }
+      },
+
+      "گیلان / رشت": {
+        routeCode: "GIL-RASHT",
+        extraStopRate: 250000,
+        rates: {
+          "وانت": 4500000,
+          "نیسان": 6000000,
+          "خاور": 9500000,
+          "کامیون تک": 14500000,
+          "کامیون جفت": 19000000
+        }
+      }
+    };
+
+    /*
+      ==========================================================
+      پایان بخش قابل ویرایش
+      ==========================================================
+    */
+
+    const destinationSelect = document.getElementById("destinationSelect");
+    const vehicleSelect = document.getElementById("vehicleSelect");
+    const baseRateInput = document.getElementById("baseRate");
+    const extraStopRateInput = document.getElementById("extraStopRate");
+    const capacitySqmInput = document.getElementById("capacitySqm");
+    const commitmentRateInput = document.getElementById("commitmentRate");
+    const minFillRateInput = document.getElementById("minFillRate");
+    const ordersBody = document.getElementById("ordersBody");
+    const allocationBody = document.getElementById("allocationBody");
+    const statusBox = document.getElementById("statusBox");
+
+    const outOrderCount = document.getElementById("outOrderCount");
+    const outTotalPurchase = document.getElementById("outTotalPurchase");
+    const outTotalSqm = document.getElementById("outTotalSqm");
+    const outFillRate = document.getElementById("outFillRate");
+    const outBaseRate = document.getElementById("outBaseRate");
+    const outExtraStopCost = document.getElementById("outExtraStopCost");
+    const outTotalFreight = document.getElementById("outTotalFreight");
+    const outCompanyCap = document.getElementById("outCompanyCap");
+    const outMinPurchase = document.getElementById("outMinPurchase");
+    const outShortfall = document.getElementById("outShortfall");
+    const outFreightPercent = document.getElementById("outFreightPercent");
+    const outFullCapacityValue = document.getElementById("outFullCapacityValue");
+
+    const formatter = new Intl.NumberFormat("fa-IR");
+
+    function toNumber(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function money(value) {
+      return formatter.format(Math.round(value)) + " تومان";
+    }
+
+    function number(value, decimals = 0) {
+      return formatter.format(Number(value.toFixed(decimals)));
+    }
+
+    function percent(value) {
+      if (!Number.isFinite(value)) return "-";
+      return formatter.format(Number((value * 100).toFixed(2))) + "٪";
+    }
+
+    function populateSelects() {
+      Object.keys(TARIFFS).forEach(destination => {
+        const option = document.createElement("option");
+        option.value = destination;
+        option.textContent = destination;
+        destinationSelect.appendChild(option);
+      });
+
+      Object.keys(VEHICLES).forEach(vehicle => {
+        const option = document.createElement("option");
+        option.value = vehicle;
+        option.textContent = vehicle;
+        vehicleSelect.appendChild(option);
+      });
+    }
+
+    function applyTariffFromSelection() {
+      const destination = destinationSelect.value;
+      const vehicle = vehicleSelect.value;
+
+      const tariff = TARIFFS[destination];
+      const vehicleInfo = VEHICLES[vehicle];
+
+      if (tariff && tariff.rates[vehicle] !== undefined) {
+        baseRateInput.value = tariff.rates[vehicle];
+      }
+
+      if (tariff) {
+        extraStopRateInput.value = tariff.extraStopRate;
+      }
+
+      if (vehicleInfo) {
+        capacitySqmInput.value = vehicleInfo.capacitySqm;
+      }
+
+      calculate();
+    }
+
+    function addOrderRow(name = "", purchase = 0, sqm = 0) {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>
+          <input class="order-name" type="text" value="${name}" placeholder="نام مشتری" />
+        </td>
+        <td>
+          <input class="order-purchase" type="number" min="0" step="100000" value="${purchase}" />
+        </td>
+        <td>
+          <input class="order-sqm" type="number" min="0" step="1" value="${sqm}" />
+        </td>
+        <td>
+          <button class="btn btn-danger delete-row" type="button">حذف</button>
+        </td>
+      `;
+
+      tr.querySelector(".delete-row").addEventListener("click", () => {
+        tr.remove();
+        calculate();
+      });
+
+      tr.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", calculate);
+      });
+
+      ordersBody.appendChild(tr);
+      calculate();
+    }
+
+    function getOrders() {
+      const rows = Array.from(ordersBody.querySelectorAll("tr"));
+
+      return rows.map((row, index) => {
+        const name = row.querySelector(".order-name").value || `مشتری ${index + 1}`;
+        const purchase = toNumber(row.querySelector(".order-purchase").value);
+        const sqm = toNumber(row.querySelector(".order-sqm").value);
+
+        return {
+          name,
+          purchase,
+          sqm
+        };
+      });
+    }
+
+    function setStatus(type, message) {
+      statusBox.className = "status " + type;
+      statusBox.textContent = message;
+    }
+
+    function calculate() {
+      const orders = getOrders();
+
+      const orderCount = orders.length;
+      const totalPurchase = orders.reduce((sum, item) => sum + item.purchase, 0);
+      const totalSqm = orders.reduce((sum, item) => sum + item.sqm, 0);
+
+      const baseRate = toNumber(baseRateInput.value);
+      const extraStopRate = toNumber(extraStopRateInput.value);
+      const capacitySqm = toNumber(capacitySqmInput.value);
+
+      const commitmentRate = toNumber(commitmentRateInput.value) / 100;
+      const minFillRate = toNumber(minFillRateInput.value) / 100;
+
+      const extraStops = Math.max(0, orderCount - 1);
+      const extraStopCost = extraStops * extraStopRate;
+      const totalFreight = baseRate + extraStopCost;
+
+      const companyCap = totalPurchase * commitmentRate;
+      const minPurchaseForFree = commitmentRate > 0 ? totalFreight / commitmentRate : 0;
+      const shortfall = Math.max(0, minPurchaseForFree - totalPurchase);
+
+      const fillRate = capacitySqm > 0 ? totalSqm / capacitySqm : 0;
+      const freightPercentOfPurchase = totalPurchase > 0 ? totalFreight / totalPurchase : 0;
+
+      const avgValuePerSqm = totalSqm > 0 ? totalPurchase / totalSqm : 0;
+      const fullCapacityValue = avgValuePerSqm * capacitySqm;
+      const capacityCanReachFree = avgValuePerSqm > 0 ? fullCapacityValue >= minPurchaseForFree : false;
+
+      const isOverCapacity = capacitySqm > 0 && totalSqm > capacitySqm;
+      const isFinanciallyFree = totalPurchase > 0 && totalFreight <= companyCap;
+      const hasEnoughFill = fillRate >= minFillRate;
+      const isFreeAllowed = !isOverCapacity && isFinanciallyFree && hasEnoughFill;
+
+      outOrderCount.textContent = number(orderCount);
+      outTotalPurchase.textContent = money(totalPurchase);
+      outTotalSqm.textContent = number(totalSqm, 2) + " مترمربع";
+      outFillRate.textContent = percent(fillRate);
+      outBaseRate.textContent = money(baseRate);
+      outExtraStopCost.textContent = money(extraStopCost);
+      outTotalFreight.textContent = money(totalFreight);
+      outCompanyCap.textContent = money(companyCap);
+      outMinPurchase.textContent = money(minPurchaseForFree);
+      outShortfall.textContent = money(shortfall);
+      outFreightPercent.textContent = percent(freightPercentOfPurchase);
+      outFullCapacityValue.textContent = money(fullCapacityValue);
+
+      if (orderCount === 0 || totalPurchase <= 0) {
+        setStatus("blue", "در انتظار ورود سفارش مشتریان...");
+      } else if (isOverCapacity) {
+        setStatus(
+          "red",
+          "❌ اضافه ظرفیت خودرو: متراژ سفارش‌ها از ظرفیت ماشین انتخاب‌شده بیشتر است."
+        );
+      } else if (!capacityCanReachFree && totalSqm > 0) {
+        setStatus(
+          "red",
+          "❌ با میانگین ارزش فعلی کالا، حتی ظرفیت کامل این ماشین هم حدنصاب خرید لازم برای حمل رایگان را پوشش نمی‌دهد. ماشین، مسیر یا شرط پروموشن باید تغییر کند."
+        );
+      } else if (isFreeAllowed) {
+        setStatus(
+          "green",
+          "✅ حمل رایگان مسیرمحور مجاز است. کرایه کل مسیر از سقف تعهد شرکت کمتر یا مساوی است و خودرو به حداقل پرشدگی رسیده است."
+        );
+      } else if (isFinanciallyFree && !hasEnoughFill) {
+        setStatus(
+          "yellow",
+          "🟡 از نظر سقف تعهد شرکت، حمل رایگان مجاز است؛ اما خودرو هنوز به حداقل درصد پرشدگی تعریف‌شده نرسیده است."
+        );
+      } else {
+        setStatus(
+          "blue",
+          "🔵 هنوز حمل رایگان فعال نیست. یا باید سفارش‌های بیشتری در همین مسیر اضافه شود یا سهم مشتری از کرایه دریافت شود. کسری خرید تا حمل رایگان: " + money(shortfall)
+        );
+      }
+
+      renderAllocation(orders, totalPurchase, totalFreight, commitmentRate, isFreeAllowed);
+    }
+
+    function renderAllocation(orders, totalPurchase, totalFreight, commitmentRate, isFreeAllowed) {
+      allocationBody.innerHTML = "";
+
+      orders.forEach(order => {
+        const freightShare = totalPurchase > 0
+          ? totalFreight * order.purchase / totalPurchase
+          : 0;
+
+        const customerCap = order.purchase * commitmentRate;
+
+        let companyShare = 0;
+        let customerShare = 0;
+        let status = "";
+
+        if (isFreeAllowed) {
+          companyShare = freightShare;
+          customerShare = 0;
+          status = "حمل رایگان";
+        } else {
+          companyShare = Math.min(freightShare, customerCap);
+          customerShare = Math.max(0, freightShare - companyShare);
+          status = "یارانه تا سقف تعهد";
+        }
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${order.name}</td>
+          <td>${money(order.purchase)}</td>
+          <td>${number(order.sqm, 2)} مترمربع</td>
+          <td>${money(freightShare)}</td>
+          <td>${money(customerCap)}</td>
+          <td>${money(companyShare)}</td>
+          <td>${money(customerShare)}</td>
+          <td>${status}</td>
+        `;
+
+        allocationBody.appendChild(tr);
+      });
+    }
+
+    function resetSample() {
+      ordersBody.innerHTML = "";
+
+      addOrderRow("مشتری ۱", 12000000, 35);
+      addOrderRow("مشتری ۲", 18000000, 45);
+      addOrderRow("مشتری ۳", 9000000, 20);
+
+      calculate();
+    }
+
+    function exportCsv() {
+      const orders = getOrders();
+
+      const destination = destinationSelect.value;
+      const vehicle = vehicleSelect.value;
+      const batchCode = document.getElementById("batchCode").value || "";
+
+      let csv = "\uFEFF";
+      csv += "کد بچ,مقصد,ماشین,نام مشتری,مبلغ خرید,متراژ\n";
+
+      orders.forEach(order => {
+        csv += [
+          batchCode,
+          destination,
+          vehicle,
+          order.name,
+          order.purchase,
+          order.sqm
+        ].join(",") + "\n";
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "shipping-promo-batch.csv";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("addOrderBtn").addEventListener("click", () => {
+      addOrderRow("", 0, 0);
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", resetSample);
+    document.getElementById("csvBtn").addEventListener("click", exportCsv);
+
+    destinationSelect.addEventListener("change", applyTariffFromSelection);
+    vehicleSelect.addEventListener("change", applyTariffFromSelection);
+
+    [
+      baseRateInput,
+      extraStopRateInput,
+      capacitySqmInput,
+      commitmentRateInput,
+      minFillRateInput
+    ].forEach(input => {
+      input.addEventListener("input", calculate);
+    });
+
+    populateSelects();
+    applyTariffFromSelection();
+    resetSample();
+  </script>
+</body>
+</html>
