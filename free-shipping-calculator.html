@@ -307,13 +307,13 @@ function calculate(){
   // به‌روزرسانی خلاصه
   sCount.textContent  = fa(count);
   sArea.textContent   = fa(totalArea);
-  sBuy.textContent    = fa(totalBuy)+' ﷼';
-  sBase.textContent   = fa(baseRate)+' ﷼';
-  sStop.textContent   = fa(stopTotal)+' ﷼';
-  sTotal.textContent  = fa(totalFreight)+' ﷼';
-  sCap.textContent    = fa(companyCapTotal)+' ﷼';
-  sMinBuy.textContent = (minBuyForFree===Infinity?'—':fa(minBuyForFree)+' ﷼');
-  sGap.textContent    = fa(gap)+' ﷼';
+  sBuy.textContent    = fa(totalBuy)+' تومان';
+  sBase.textContent   = fa(baseRate)+' تومان';
+  sStop.textContent   = fa(stopTotal)+' تومان';
+  sTotal.textContent  = fa(totalFreight)+' تومان';
+  sCap.textContent    = fa(companyCapTotal)+' تومان';
+  sMinBuy.textContent = (minBuyForFree===Infinity?'—':fa(minBuyForFree)+' تومان');
+  sGap.textContent    = fa(gap)+' تومان';
 
   // وضعیت بچ
   const sb=document.getElementById('statusBar');
