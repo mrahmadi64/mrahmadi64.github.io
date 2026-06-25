@@ -300,9 +300,20 @@ function calculate(){
   const gap = Math.max(0, minBuyForFree - totalBuy);
 
   // پرشدگی
-  const fillPct = cap>0 ? Math.min(100, (totalArea/cap)*100) : 0;
-  fillBar.style.width = fillPct+'%';
-  fillTxt.textContent = `ظرفیت ${fa(totalArea)} از ${fa(cap)} م‌م خودرو ${veh.name} (${fa(fillPct)}٪)`;
+  const fillPercent = (totalMeterage / vehicleCapacity) * 100;
+capacityElement.textContent = `ظرفیت ${totalMeterage} از ${vehicleCapacity} م‌م خودرو ${vehicleName} (${Math.round(fillPercent)}٪)`;
+
+// اعمال رنگ بر اساس وضعیت پرشدگی
+if (fillPercent > 100) {
+    capacityElement.style.color = '#dc2626';        // قرمز — بار بیشتر از ظرفیت
+    capacityElement.style.fontWeight = 'bold';
+} else if (fillPercent >= 90) {
+    capacityElement.style.color = '#f59e0b';        // نارنجی — نزدیک به پر شدن
+    capacityElement.style.fontWeight = 'bold';
+} else {
+    capacityElement.style.color = '#16a34a';        // سبز — ظرفیت کافی
+    capacityElement.style.fontWeight = 'normal';
+}
 
   // به‌روزرسانی خلاصه
   sCount.textContent  = fa(count);
