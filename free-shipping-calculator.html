@@ -299,32 +299,37 @@ function calculate(){
   const minBuyForFree = thr>0 ? totalFreight / thr : Infinity;
   const gap = Math.max(0, minBuyForFree - totalBuy);
 
-  // پرشدگی
-  const fillPercent = (totalMeterage / vehicleCapacity) * 100;
-capacityElement.textContent = `ظرفیت ${totalMeterage} از ${vehicleCapacity} م‌م خودرو ${vehicleName} (${Math.round(fillPercent)}٪)`;
+// پرشدگی
+  const realPct  = cap>0 ? (totalArea/cap)*100 : 0;   // درصد واقعی (می‌تواند بیش از 100 باشد)
+  const fillPct  = Math.min(100, realPct);            // عرض نوار حداکثر 100٪
+  const isOver   = totalArea > cap;                   // آیا بار از ظرفیت بیشتر است؟
 
-// اعمال رنگ بر اساس وضعیت پرشدگی
-if (fillPercent > 100) {
-    capacityElement.style.color = '#dc2626';        // قرمز — بار بیشتر از ظرفیت
-    capacityElement.style.fontWeight = 'bold';
-} else if (fillPercent >= 90) {
-    capacityElement.style.color = '#f59e0b';        // نارنجی — نزدیک به پر شدن
-    capacityElement.style.fontWeight = 'bold';
-} else {
-    capacityElement.style.color = '#16a34a';        // سبز — ظرفیت کافی
-    capacityElement.style.fontWeight = 'normal';
-}
+  fillBar.style.width = fillPct + '%';
+
+  if(isOver){
+    fillBar.classList.add('over');
+    fillTxt.classList.add('over');
+    const extra = totalArea - cap; // متراژ مازاد
+    fillTxt.textContent =
+      `⛔ ظرفیت ${fa(totalArea)} از ${fa(cap)} م‌م خودرو ${veh.name} — ` +
+      `بیش از ظرفیت! (${fa(realPct)}٪ | مازاد: ${fa(extra)} م‌م)`;
+  } else {
+    fillBar.classList.remove('over');
+    fillTxt.classList.remove('over');
+    fillTxt.textContent =
+      `ظرفیت ${fa(totalArea)} از ${fa(cap)} م‌م خودرو ${veh.name} (${fa(realPct)}٪)`;
+  }
 
   // به‌روزرسانی خلاصه
   sCount.textContent  = fa(count);
   sArea.textContent   = fa(totalArea);
-  sBuy.textContent    = fa(totalBuy)+' تومان';
-  sBase.textContent   = fa(baseRate)+' تومان';
-  sStop.textContent   = fa(stopTotal)+' تومان';
-  sTotal.textContent  = fa(totalFreight)+' تومان';
-  sCap.textContent    = fa(companyCapTotal)+' تومان';
-  sMinBuy.textContent = (minBuyForFree===Infinity?'—':fa(minBuyForFree)+' تومان');
-  sGap.textContent    = fa(gap)+' تومان';
+  sBuy.textContent    = fa(totalBuy)+' ﷼';
+  sBase.textContent   = fa(baseRate)+' ﷼';
+  sStop.textContent   = fa(stopTotal)+' ﷼';
+  sTotal.textContent  = fa(totalFreight)+' ﷼';
+  sCap.textContent    = fa(companyCapTotal)+' ﷼';
+  sMinBuy.textContent = (minBuyForFree===Infinity?'—':fa(minBuyForFree)+' ﷼');
+  sGap.textContent    = fa(gap)+' ﷼';
 
   // وضعیت بچ
   const sb=document.getElementById('statusBar');
