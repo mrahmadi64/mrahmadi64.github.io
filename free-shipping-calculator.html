@@ -49,6 +49,48 @@
   details{margin-top:10px;background:var(--panel2);border-radius:9px;padding:8px 12px}
   summary{cursor:pointer;font-size:13px;color:var(--info)}
   details table th,details table td{font-size:11px;padding:5px 4px}
+
+  /* ========== استایل‌های ریسپانسیو ========== */
+  @media(max-width:767px){
+    body{padding:10px}
+    h1{font-size:17px}
+    .sub{font-size:11px}
+    .card{padding:12px}
+    .card h2{font-size:14px}
+    
+    /* جدول‌ها اسکرول افقی داشته باشند */
+    table{display:block;overflow-x:auto;white-space:nowrap;font-size:11px}
+    th,td{padding:6px 4px;font-size:11px}
+    td input{padding:4px;font-size:11px}
+    
+    /* گرید تک ستونه */
+    .grid{grid-template-columns:1fr}
+    
+    /* خلاصه مسیر - فشرده‌تر */
+    .kv{font-size:11px;padding:5px 0}
+    
+    /* دکمه‌ها بزرگتر برای لمس */
+    button{padding:10px 16px;font-size:14px}
+    .btn-del{padding:6px 10px;font-size:12px}
+    
+    /* وضعیت بار */
+    .status-bar{font-size:12px;padding:10px}
+    
+    /* پیام باکس */
+    .msgbox{font-size:11px;line-height:1.8}
+    
+    /* جزئیات پله‌ها */
+    details{padding:6px 8px}
+    summary{font-size:12px}
+  }
+
+  @media(min-width:768px) and (max-width:979px){
+    body{padding:14px}
+    .grid{grid-template-columns:1fr 1fr}
+    
+    /* جدول‌ها در تبلت هم اسکرول داشته باشند */
+    .full table{display:block;overflow-x:auto}
+  }
 </style>
 </head>
 <body>
