@@ -1001,4 +1001,248 @@
                 من دستیار هوشمند این وب‌سایت هستم. می‌تونید درباره مهارت‌ها، پروژه‌ها، راه‌های ارتباطی یا همکاری با محمدرضا سؤال بپرسید.
             </div>
 
-            <div class="ch
+            <div class="chat-options" id="options-list">
+                <button class="chat-btn" onclick="showContact('phone')">📞 دریافت شماره تماس</button>
+                <button class="chat-btn" onclick="showContact('email')">✉️ دریافت آدرس ایمیل</button>
+                <button class="chat-btn" onclick="startAiChat()">🤖 پرسش از دستیار هوشمند</button>
+            </div>
+
+            <div id="ai-chat-area">
+                <div id="ai-messages">
+                    <div class="bot-message">
+                        لطفاً سؤال خود را بنویسید.  
+                        مثال: «محمدرضا در چه حوزه‌هایی تخصص دارد؟» یا «چطور می‌توانم برای همکاری تماس بگیرم؟»
+                    </div>
+                </div>
+
+                <div class="chat-input-row">
+                    <input
+                        id="user-input"
+                        type="text"
+                        placeholder="پیام خود را بنویسید..."
+                        autocomplete="off"
+                    >
+                    <button id="send-btn" onclick="sendAiMessage()">ارسال</button>
+                </div>
+
+                <button class="chat-btn back-btn" onclick="backToMenu()">↩️ بازگشت به منو</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://gentle-shape-211c.khajevande-ahmadi6956.workers.dev/chat";
+
+        function openChat() {
+            var chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.add('active');
+            scrollChatToBottom();
+        }
+
+        function closeChat() {
+            var chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.remove('active');
+        }
+
+        function toggleChat() {
+            var chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('active');
+            scrollChatToBottom();
+        }
+
+        function showContact(type) {
+            var optionsList = document.getElementById('options-list');
+            var chatBody = document.getElementById('chat-body');
+            var aiChatArea = document.getElementById('ai-chat-area');
+
+            aiChatArea.style.display = 'none';
+            optionsList.style.display = 'none';
+
+            clearContactResponses();
+
+            var newMessage = document.createElement('div');
+            newMessage.className = 'bot-message contact-response';
+
+            if (type === 'phone') {
+                newMessage.innerHTML = '📞 شماره تماس من:<br><a href="tel:09197080992" class="contact-link">09197080992</a><span class="contact-hint">برای تماس مستقیم کلیک کنید.</span>';
+            } else if (type === 'email') {
+                newMessage.innerHTML = '✉️ آدرس ایمیل من:<br><a href="mailto:mr_ahmadi@outlook.com" class="contact-link">mr_ahmadi@outlook.com</a><span class="contact-hint">برای ارسال ایمیل کلیک کنید.</span>';
+            }
+
+            var restartBtn = document.createElement('button');
+            restartBtn.className = 'chat-btn contact-response';
+            restartBtn.innerText = '↩️ بازگشت به منو';
+            restartBtn.style.marginTop = '5px';
+            restartBtn.onclick = function() {
+                clearContactResponses();
+                optionsList.style.display = 'flex';
+            };
+
+            chatBody.appendChild(newMessage);
+            chatBody.appendChild(restartBtn);
+            scrollChatToBottom();
+        }
+
+        function clearContactResponses() {
+            var responses = document.querySelectorAll('.contact-response');
+            responses.forEach(function(item) {
+                item.remove();
+            });
+        }
+
+        function startAiChat() {
+            var optionsList = document.getElementById('options-list');
+            var aiChatArea = document.getElementById('ai-chat-area');
+
+            clearContactResponses();
+
+            optionsList.style.display = 'none';
+            aiChatArea.style.display = 'block';
+
+            setTimeout(function() {
+                var input = document.getElementById('user-input');
+                input.focus();
+            }, 100);
+
+            scrollChatToBottom();
+        }
+
+        function backToMenu() {
+            var optionsList = document.getElementById('options-list');
+            var aiChatArea = document.getElementById('ai-chat-area');
+
+            aiChatArea.style.display = 'none';
+            optionsList.style.display = 'flex';
+
+            clearContactResponses();
+            scrollChatToBottom();
+        }
+
+        async function sendAiMessage() {
+            var input = document.getElementById('user-input');
+            var sendBtn = document.getElementById('send-btn');
+            var aiMessages = document.getElementById('ai-messages');
+
+            var userMessage = input.value.trim();
+
+            if (!userMessage) {
+                return;
+            }
+
+            appendMessage('user', userMessage);
+
+            input.value = '';
+            sendBtn.disabled = true;
+            sendBtn.innerText = '...';
+
+            var loadingId = 'loading-' + Date.now();
+            var loadingMessage = document.createElement('div');
+            loadingMessage.className = 'bot-message loading-message';
+            loadingMessage.id = loadingId;
+            loadingMessage.innerText = 'در حال دریافت پاسخ...';
+            aiMessages.appendChild(loadingMessage);
+
+            scrollChatToBottom();
+
+            try {
+                var response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: userMessage
+                    })
+                });
+
+                var data = await response.json();
+
+                var loadingElement = document.getElementById(loadingId);
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+
+                if (!response.ok) {
+                    appendError('خطا در دریافت پاسخ از سرور. لطفاً چند لحظه بعد دوباره تلاش کنید.');
+                    return;
+                }
+
+                var answer = data.answer || 'متأسفانه پاسخی دریافت نشد.';
+                appendMessage('bot', answer);
+
+            } catch (error) {
+                var loadingElementCatch = document.getElementById(loadingId);
+                if (loadingElementCatch) {
+                    loadingElementCatch.remove();
+                }
+
+                appendError('خطا در اتصال به سرور. لطفاً اتصال اینترنت یا تنظیمات سرویس را بررسی کنید.');
+                console.error(error);
+
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerText = 'ارسال';
+                input.focus();
+                scrollChatToBottom();
+            }
+        }
+
+        function appendMessage(type, text) {
+            var aiMessages = document.getElementById('ai-messages');
+            var message = document.createElement('div');
+
+            if (type === 'user') {
+                message.className = 'user-message';
+            } else {
+                message.className = 'bot-message';
+            }
+
+            message.innerHTML = escapeHtml(text);
+            aiMessages.appendChild(message);
+            scrollChatToBottom();
+        }
+
+        function appendError(text) {
+            var aiMessages = document.getElementById('ai-messages');
+            var message = document.createElement('div');
+            message.className = 'error-message';
+            message.innerText = text;
+            aiMessages.appendChild(message);
+            scrollChatToBottom();
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function scrollChatToBottom() {
+            var chatBody = document.getElementById('chat-body');
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.getElementById('user-input');
+
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    sendAiMessage();
+                }
+            });
+
+            /*
+                باز شدن خودکار چت‌بات هنگام ورود کاربر به سایت
+                عدد 900 یعنی حدود 0.9 ثانیه بعد از لود صفحه باز شود.
+            */
+            setTimeout(function() {
+                openChat();
+            }, 900);
+        });
+    </script>
+</body>
+</html>
