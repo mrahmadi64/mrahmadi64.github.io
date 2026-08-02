@@ -1145,13 +1145,17 @@
         scrollChatToBottom();
     }
 
+    <script>
+    const API_URL = "https://mr-chat-api.khajevande-ahmadi6956.workers.dev/chat";
+
+    // ... بقیه‌ی توابع همان قبلی بمانند ...
+
     async function sendAiMessage() {
         var input = document.getElementById('user-input');
         var sendBtn = document.getElementById('send-btn');
         var aiMessages = document.getElementById('ai-messages');
 
         var userMessage = input.value.trim();
-
         if (!userMessage) {
             return;
         }
@@ -1172,42 +1176,48 @@
         scrollChatToBottom();
 
         try {
-            var response = await fetch(API_URL, {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     message: userMessage
-                    // اگر بعداً history را اضافه کردی، اینجا می‌توانی بفرستی
-                    // history: [...]
                 })
             });
 
-            var loadingElement = document.getElementById(loadingId);
-            if (loadingElement) {
-                loadingElement.remove();
-            }
+            const loadingElement = document.getElementById(loadingId);
+            if (loadingElement) loadingElement.remove();
 
             if (!response.ok) {
                 appendError('خطا در دریافت پاسخ از سرور. لطفاً چند لحظه بعد دوباره تلاش کنید.');
+                console.error('HTTP error:', response.status, await response.text());
                 return;
             }
 
-            var data = await response.json();
+            const data = await response.json();
+            console.log('Chat API response:', data);
 
-            // Worker فعلی فیلد reply برمی‌گرداند
-            var answer = data.reply || 'متأسفانه پاسخی دریافت نشد.';
+            // تلاش برای خواندن پاسخ از فیلدهای مختلف
+            let answer =
+                data.reply ??
+                data.answer ??
+                data.response ??
+                null;
+
+            if (!answer) {
+                appendError('ساختار پاسخ سرور نامعتبر است. جزئیات در کنسول مرورگر.');
+                return;
+            }
+
             appendMessage('bot', answer);
 
         } catch (error) {
-            var loadingElementCatch = document.getElementById(loadingId);
-            if (loadingElementCatch) {
-                loadingElementCatch.remove();
-            }
+            const loadingElementCatch = document.getElementById(loadingId);
+            if (loadingElementCatch) loadingElementCatch.remove();
 
             appendError('خطا در اتصال به سرور. لطفاً اتصال اینترنت یا تنظیمات سرویس را بررسی کنید.');
-            console.error(error);
+            console.error('Fetch error:', error);
 
         } finally {
             sendBtn.disabled = false;
@@ -1216,6 +1226,10 @@
             scrollChatToBottom();
         }
     }
+
+    // ... بقیه‌ی کد همان قبلی ...
+</script>
+
 
     function appendMessage(type, text) {
         var aiMessages = document.getElementById('ai-messages');
